@@ -19,8 +19,8 @@ export class LoginComponent {
       private router: Router
    ) { }
 
-   username: String = "adsoft"; // <- Aquí
-   password: String = "123";
+   username: String = "";
+   password: String = "";
    myLogin = new Token();
 
    callLogin() {
