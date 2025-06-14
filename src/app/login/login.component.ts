@@ -13,32 +13,31 @@ import { StorageService } from "../services/storage.service";
 })
 
 export class LoginComponent {
-
-   constructor(private userService: UserService,
+   constructor(
+      private userService: UserService,
       private storageService: StorageService,
       private router: Router
    ) { }
 
-   email: String = "adsoft@live.com.mx";
+   username: String = "adsoft"; // <- Aquí
    password: String = "123";
    myLogin = new Token();
 
    callLogin() {
       const myCredential = new Credential();
-      myCredential.email = this.email;
+      myCredential.username = this.username; // <- Aquí
       myCredential.password = this.password;
 
       this.userService.postLogin(myCredential).subscribe({
          next: (data: any) => {
             console.log('user logged: ', data);
-            this.storageService.setSession("user", myCredential.email);
+            this.storageService.setSession("user", myCredential.username); // <- Aquí también
             this.storageService.setSession("token", data.accessToken);
             this.router.navigate(['/home']);
          },
          error: (errMsg) => {
-            // errMsg ya es el mensaje extraído por handleError
             alert(errMsg);
-            this.email = "";
+            this.username = "";
             this.password = "";
          }
       });

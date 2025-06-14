@@ -37,7 +37,7 @@ export class UserService {
 
 
     const body = {
-      username: myCredential.email,
+      username: myCredential.username,
       password: myCredential.password
     };
 
