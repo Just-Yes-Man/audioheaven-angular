@@ -66,7 +66,17 @@ export class UserService {
       role: ['mod', 'users']
     };
 
-    return this.http.post<User>('http://localhost:8080/api/auth/signup', myNewUser);
+    return this.http.post<User>('https://audioheaven-spring.onrender.com/api/auth/signup', myNewUser)
+      .pipe(
+        catchError((error) => {
+          if (error.status === 400 || error.status === 409) {
+            alert("usuario o correo ya en uso");
+          } else {
+            alert("Ocurrió un error inesperado");
+          }
+          return throwError(() => error);
+        })
+      );
   }
 
 

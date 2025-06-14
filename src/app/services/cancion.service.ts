@@ -63,7 +63,7 @@ export class CancionService {
   }
 
   getReaccionMasVotada(cancionId: number): Observable<string> {
-    return this.http.get(`http://localhost:8080/api/reactions/most-voted/${cancionId}`, {
+    return this.http.get(`https://audioheaven-spring.onrender.com/api/reactions/most-voted/${cancionId}`, {
       responseType: 'text'
     });
   }
