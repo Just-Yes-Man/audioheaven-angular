@@ -1,0 +1,131 @@
+/* canciones.component.css */
+.main-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #f0db4f;
+}
+
+.song-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: #282828;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #00000055;
+    margin-bottom: 2rem;
+}
+
+.input {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: #3a3a3a;
+    color: white;
+}
+
+.input::placeholder {
+    color: #aaa;
+}
+
+.submit-btn {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: #f0db4f;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancion-card {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 8px #00000033;
+}
+
+.cancion-info {
+    margin-bottom: 1rem;
+}
+
+.song-link {
+    color: #1db954;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.reactions button {
+    background: #2c2c2c;
+    color: #f0db4f;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.reactions button:hover {
+    background: #3a3a3a;
+}
+
+.comentarios {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: #2a2a2a;
+    border-radius: 8px;
+}
+
+.comentario-form {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.comentario-form input {
+    flex: 1;
+    padding: 0.5rem;
+    background: #3a3a3a;
+    border: none;
+    color: white;
+    border-radius: 6px;
+}
+
+.comentario-form button {
+    background: #1db954;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.paginacion {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.paginacion button {
+    padding: 0.5rem 1rem;
+    background: #f0db4f;
+    border: none;
+    margin: 0 0.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.paginacion span {
+    margin: 0 1rem;
+    font-weight: bold;
+}

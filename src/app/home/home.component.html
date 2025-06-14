@@ -1,0 +1,53 @@
+<div class="main-container">
+    <h2 class="welcome-title">🎧 Bienvenido, {{ username }}</h2>
+
+    <form class="song-form" (submit)="addCancion(); $event.preventDefault()">
+        <input type="text" class="input" placeholder="Nombre de la canción..." [(ngModel)]="cancionNombre"
+            name="nombre" />
+        <input type="text" class="input" placeholder="Autor de la canción..." [(ngModel)]="cancionAutor" name="autor" />
+        <input type="text" class="input" placeholder="Enlace de la canción..." [(ngModel)]="cancionLink" name="link" />
+        <button type="submit" class="submit-btn">Agregar canción</button>
+    </form>
+
+    <div class="cancion-card" *ngFor="let cancion of canciones">
+        <div class="cancion-info">
+            <h3>{{ cancion.nombre }}</h3>
+            <p><strong>Autor:</strong> {{ cancion.autor }}</p>
+            <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
+            <p *ngIf="cancion.reaccionMasVotada">
+                ⭐ Reacción más votada:
+                <strong>
+                    <ng-container *ngFor="let star of [].constructor(getNumeroEstrellas(cancion.reaccionMasVotada))">
+                        ⭐
+                    </ng-container>
+                </strong>
+            </p>
+        </div>
+
+        <div class="reactions">
+            <button *ngFor="let star of [1,2,3,4,5]" (click)="reaccionar(cancion.id, star)">
+                ⭐ {{ star }}
+            </button>
+        </div>
+
+        <div class="comentarios" *ngIf="cancion.comentarios?.length">
+            <div *ngFor="let comentario of cancion.comentarios">
+                <strong>{{ comentario.nombreUsuario }}:</strong> {{ comentario.contenido }}
+            </div>
+        </div>
+
+        <form class="comentario-form" (submit)="crearComentario(cancion); $event.preventDefault()">
+            <input type="text" [(ngModel)]="cancion.nuevoComentario" [name]="'comentario' + cancion.id"
+                placeholder="Escribe un comentario..." />
+            <button type="submit">Comentar</button>
+        </form>
+    </div>
+
+    <div class="paginacion">
+        <button (click)="paginaActual = paginaActual - 1; getCanciones()"
+            [disabled]="paginaActual === 0">Anterior</button>
+        <span>Página {{ paginaActual + 1 }} de {{ totalPaginas }}</span>
+        <button (click)="paginaActual = paginaActual + 1; getCanciones()"
+            [disabled]="paginaActual + 1 >= totalPaginas">Siguiente</button>
+    </div>
+</div>

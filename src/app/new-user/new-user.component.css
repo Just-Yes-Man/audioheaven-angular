@@ -1,0 +1,92 @@
+/* register.component.css */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #1c1c1c, #333);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-card {
+    background: #ffffff10;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    width: 340px;
+    text-align: center;
+    color: #fff;
+}
+
+.logo {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    color: #f0db4f;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: #ddd;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: #ffffff20;
+    color: white;
+}
+
+.form-group input::placeholder {
+    color: #ccc;
+}
+
+.hint {
+    font-size: 0.75rem;
+    color: #bbb;
+}
+
+.register-button {
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    background-color: #f0db4f;
+    color: #1f1f1f;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #ffe985;
+}
+
+.footer-links {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+.footer-links a {
+    color: #f0db4f;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
