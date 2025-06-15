@@ -5,9 +5,11 @@ export class Cancion {
     nombre: string = '';
     autor: string = '';
     link: string = '';
-    postedby: string = '';
+    postedBy: {
+        id: number;
+        username: string;
+    } | null = null;
     reaccionMasVotada?: string;
     comentarios?: { id: number; contenido: string; nombreUsuario: string }[] = [];
     nuevoComentario?: string = '';
-
 }

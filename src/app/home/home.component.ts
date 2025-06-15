@@ -16,6 +16,7 @@ export class HomeComponent {
   cancionLink: string = '';
   canciones: Cancion[] = [];
   cancionAutor: string = '';
+  modoBusquedaActiva: boolean = false;
 
 
   paginaActual: number = 0;
@@ -52,7 +53,19 @@ export class HomeComponent {
     const match = reaccion.match(/STAR_(\d)/);
     return match ? parseInt(match[1], 10) : 0;
   }
+  public borrarCancion(cancionId: number) {
+    if (!confirm('¿Estás seguro de que deseas borrar esta canción?')) return;
 
+    this.cancionService.deleteCancion(cancionId).subscribe({
+      next: (res) => {
+        console.log('Canción eliminada:', res);
+        this.getCanciones(); // recarga la lista
+      },
+      error: (err) => {
+        console.error('Error al borrar canción:', err);
+      }
+    });
+  }
 
   public addCancion() {
     const nuevaCancion: Cancion = {
@@ -60,7 +73,7 @@ export class HomeComponent {
       nombre: this.cancionNombre,
       link: this.cancionLink,
       autor: this.cancionAutor,
-      postedby: this.username
+      postedBy: null
     };
 
     console.log('Canción agregada:', nuevaCancion);
@@ -69,6 +82,44 @@ export class HomeComponent {
       this.getCanciones();
     });
   }
+
+  terminoBusqueda: string = '';
+
+  public buscarCanciones() {
+    if (!this.terminoBusqueda || this.terminoBusqueda.trim() === '') {
+      this.limpiarBusqueda();
+      return;
+    }
+
+    this.modoBusquedaActiva = true;
+
+    this.cancionService.buscarCanciones(this.terminoBusqueda).subscribe({
+      next: (res: any) => {
+        this.canciones = res;
+        this.totalPaginas = 1;
+        this.paginaActual = 0;
+
+        this.canciones.forEach((cancion) => {
+          this.cancionService.getReaccionMasVotada(cancion.id).subscribe({
+            next: (reaccion) => (cancion.reaccionMasVotada = reaccion),
+            error: () => (cancion.reaccionMasVotada = 'Sin votos')
+          });
+
+          this.cargarComentarios(cancion);
+        });
+      },
+      error: (err) => console.error('Error al buscar canciones:', err)
+    });
+  }
+
+
+  public limpiarBusqueda() {
+    this.terminoBusqueda = '';
+    this.modoBusquedaActiva = false;
+    this.getCanciones();
+  }
+
+
 
   public reaccionar(cancionId: number, reactionId: number) {
     const reaccion: CancionReaction = {

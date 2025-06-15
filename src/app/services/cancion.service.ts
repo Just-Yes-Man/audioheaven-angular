@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 import { StorageService } from './storage.service';
 import { Cancion } from '../models/canciones/Cancion';
@@ -76,6 +77,20 @@ export class CancionService {
     return this.http.get<any[]>(this.apiURL + `api/comentarios/get/${cancionId}`, this.getHttpOptions())
       .pipe(catchError(this.handleError));
   }
+  buscarCanciones(termino: string): Observable<Cancion[]> {
+    return this.http.get<Cancion[]>(`https://audioheaven-spring.onrender.com/api/cancion/buscar?termino=${termino}`);
+  }
+  deleteCancion(id: number): Observable<any> {
+    return this.http.delete(
+      `${this.apiURL}api/cancion/delete/${id}`,
+      {
+        ...this.getHttpOptions(),
+        responseType: 'text' as 'json'  // 👈 esto evita que Angular intente parsear JSON
+      }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
 
 
 
@@ -83,18 +98,31 @@ export class CancionService {
 
 
 
-  // Error handling
+
   handleError(error: any) {
     let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Error del cliente
+
+    if (error.status === 403) {
+      errorMessage = 'No tienes permisos para borrar esta canción.';
+    } else if (error.status === 404) {
+      errorMessage = 'La canción no fue encontrada.';
+    } else if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
-      // Error del servidor
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error ${error.status}: ${error.message}`;
     }
-    console.log(errorMessage);
-    window.alert(errorMessage);
+
+    console.error('Error desde handleError:', errorMessage);
+
+    Swal.fire({
+      icon: 'error',
+      title: '¡Ups!',
+      text: errorMessage,
+      confirmButtonColor: '#d33'
+    });
+
     return throwError(() => errorMessage);
   }
+
+
 }

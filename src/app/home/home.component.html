@@ -1,6 +1,18 @@
 <div class="main-container">
     <h2 class="welcome-title">🎧 Bienvenido, {{ username }}</h2>
 
+    <form class="search-form" (submit)="buscarCanciones(); $event.preventDefault()">
+        <input type="text" class="input search-input" placeholder="🔍 Buscar por nombre o autor..."
+            [(ngModel)]="terminoBusqueda" name="busqueda" />
+        <div class="search-buttons">
+            <button type="submit" class="submit-btn">Buscar</button>
+            <button type="button" class="clear-btn" (click)="limpiarBusqueda()">Limpiar</button>
+        </div>
+    </form>
+
+
+
+
     <form class="song-form" (submit)="addCancion(); $event.preventDefault()">
         <input type="text" class="input" placeholder="Nombre de la canción..." [(ngModel)]="cancionNombre"
             name="nombre" />
@@ -9,40 +21,46 @@
         <button type="submit" class="submit-btn">Agregar canción</button>
     </form>
 
-    <div class="cancion-card" *ngFor="let cancion of canciones">
-        <div class="cancion-info">
-            <h3>{{ cancion.nombre }}</h3>
-            <p><strong>Autor:</strong> {{ cancion.autor }}</p>
-            <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
-            <p *ngIf="cancion.reaccionMasVotada">
-                ⭐ Reacción más votada:
-                <strong>
-                    <ng-container *ngFor="let star of [].constructor(getNumeroEstrellas(cancion.reaccionMasVotada))">
-                        ⭐
-                    </ng-container>
-                </strong>
-            </p>
-        </div>
 
-        <div class="reactions">
-            <button *ngFor="let star of [1,2,3,4,5]" (click)="reaccionar(cancion.id, star)">
-                ⭐ {{ star }}
-            </button>
-        </div>
 
-        <div class="comentarios" *ngIf="cancion.comentarios?.length">
-            <div *ngFor="let comentario of cancion.comentarios">
-                <strong>{{ comentario.nombreUsuario }}:</strong> {{ comentario.contenido }}
+    <ng-container *ngIf="modoBusquedaActiva || (!modoBusquedaActiva && canciones.length)">
+        <div class="cancion-card" *ngFor="let cancion of canciones">
+            <div class="cancion-info">
+                <h3>{{ cancion.nombre }} - {{ cancion.autor }}</h3>
+                <p>Publicado por: {{ cancion.postedBy?.username || 'Desconocido' }}</p>
+
+                <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
+                <p *ngIf="cancion.reaccionMasVotada">
+                    ⭐ Reacción más votada:
+                    <strong>
+                        <ng-container
+                            *ngFor="let star of [].constructor(getNumeroEstrellas(cancion.reaccionMasVotada))">
+                            ⭐
+                        </ng-container>
+                    </strong>
+                </p><button (click)="borrarCancion(cancion.id)">🗑 Borrar</button>
+
             </div>
+
+            <div class="reactions">
+                <button *ngFor="let star of [1,2,3,4,5]" (click)="reaccionar(cancion.id, star)">
+                    ⭐ {{ star }}
+                </button>
+            </div>
+
+            <div class="comentarios" *ngIf="cancion.comentarios?.length">
+                <div *ngFor="let comentario of cancion.comentarios">
+                    <strong>{{ comentario.nombreUsuario }}:</strong> {{ comentario.contenido }}
+                </div>
+            </div>
+
+            <form class="comentario-form" (submit)="crearComentario(cancion); $event.preventDefault()">
+                <input type="text" [(ngModel)]="cancion.nuevoComentario" [name]="'comentario' + cancion.id"
+                    placeholder="Escribe un comentario..." />
+                <button type="submit">Comentar</button>
+            </form>
         </div>
-
-        <form class="comentario-form" (submit)="crearComentario(cancion); $event.preventDefault()">
-            <input type="text" [(ngModel)]="cancion.nuevoComentario" [name]="'comentario' + cancion.id"
-                placeholder="Escribe un comentario..." />
-            <button type="submit">Comentar</button>
-        </form>
-    </div>
-
+    </ng-container>
     <div class="paginacion">
         <button (click)="paginaActual = paginaActual - 1; getCanciones()"
             [disabled]="paginaActual === 0">Anterior</button>

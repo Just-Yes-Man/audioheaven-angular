@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 
 @Injectable({
@@ -66,18 +67,12 @@ export class UserService {
       role: ['mod', 'users']
     };
 
-    return this.http.post<User>('https://audioheaven-spring.onrender.com/api/auth/signup', myNewUser)
+    return this.http.post<User>(this.apiURL + 'api/auth/signup', myNewUser)
       .pipe(
-        catchError((error) => {
-          if (error.status === 400 || error.status === 409) {
-            alert("usuario o correo ya en uso");
-          } else {
-            alert("Ocurrió un error inesperado");
-          }
-          return throwError(() => error);
-        })
+        catchError((error) => this.handleError(error))
       );
   }
+
 
 
 
@@ -205,27 +200,42 @@ export class UserService {
     let errorMessage = 'Ocurrió un error inesperado';
 
     if (error.error instanceof ErrorEvent) {
-      // Error cliente
       errorMessage = error.error.message;
     } else {
-      // Error servidor
-      if (error.error && typeof error.error === 'object' && error.error.message) {
-        errorMessage = error.error.message;
-      } else if (typeof error.error === 'string') {
-        try {
-          const errObj = JSON.parse(error.error);
-          if (errObj.message) errorMessage = errObj.message;
-        } catch {
-          // no es JSON válido
-        }
+      if (error.status === 400 || error.status === 409) {
+        errorMessage = 'Usuario o correo ya está en uso.';
+      } else if (error.status === 401) {
+        errorMessage = 'Credenciales inválidas.';
+      } else if (error.status === 403) {
+        errorMessage = 'No tienes permiso para realizar esta acción.';
+      } else if (error.status === 404) {
+        errorMessage = 'Recurso no encontrado.';
       } else {
-        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        if (error.error && typeof error.error === 'object' && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (typeof error.error === 'string') {
+          try {
+            const errObj = JSON.parse(error.error);
+            if (errObj.message) errorMessage = errObj.message;
+          } catch {
+            errorMessage = `Error ${error.status}: ${error.message}`;
+          }
+        }
       }
     }
 
-    console.log(errorMessage);
-    return throwError(errorMessage);
+    console.error(errorMessage);
+
+    Swal.fire({
+      icon: 'error',
+      title: '¡Oops!',
+      text: errorMessage,
+      confirmButtonColor: '#d33'
+    });
+
+    return throwError(() => errorMessage);
   }
+
 
 
 }

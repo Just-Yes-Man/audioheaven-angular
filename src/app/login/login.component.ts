@@ -19,24 +19,24 @@ export class LoginComponent {
       private router: Router
    ) { }
 
-   username: String = "adsoft"; // <- Aquí
-   password: String = "123";
+   username: String = "";
+   password: String = "";
    myLogin = new Token();
 
    callLogin() {
       const myCredential = new Credential();
-      myCredential.username = this.username; // <- Aquí
+      myCredential.username = this.username;
       myCredential.password = this.password;
 
       this.userService.postLogin(myCredential).subscribe({
          next: (data: any) => {
             console.log('user logged: ', data);
-            this.storageService.setSession("user", myCredential.username); // <- Aquí también
+            this.storageService.setSession("user", myCredential.username);
             this.storageService.setSession("token", data.accessToken);
             this.router.navigate(['/home']);
          },
          error: (errMsg) => {
-            alert(errMsg);
+
             this.username = "";
             this.password = "";
          }
