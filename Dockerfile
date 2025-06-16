@@ -1,26 +1,20 @@
-# Etapa de construcción
+# Etapa de build
 FROM node:20 AS build
 
 WORKDIR /app
-
-# Copiar los archivos package.json y package-lock.json para instalar dependencias
 COPY package*.json ./
 RUN npm ci
-
-# Copiar el resto de los archivos del proyecto
 COPY . .
-
-# Construir la aplicación Angular en modo de producción
 RUN npm run build --prod
 
-# Etapa de producción: Usar Apache (httpd) para servir la app
-FROM httpd:alpine
+# Etapa de producción
+FROM nginx:alpine
 
-# Copiar los archivos generados en la etapa anterior al contenedor de Apache
-COPY --from=build /app/dist/audioheaven/browser /usr/local/apache2/htdocs/
+# Copia archivos Angular a nginx html
+COPY --from=build /app/dist/audioheaven/browser /usr/share/nginx/html
 
-# Exponer el puerto 80 (predeterminado de HTTPD)
+# Reemplaza configuración de nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
-
-# Ejecutar Apache en primer plano
-CMD ["httpd-foreground"]
+CMD ["nginx", "-g", "daemon off;"]
