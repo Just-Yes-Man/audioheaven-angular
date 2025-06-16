@@ -32,20 +32,8 @@ jobs:
       - name: 📁 List Angular build output
         run: ls -la dist/audioheaven/browser
 
-      - name: 🐳 Run base HTTPD container
-        run: docker run -d --name serving_base httpd
-
-      - name: 🐳 Docker ps (running containers)
-        run: docker ps
-
-      - name: 📦 Copy Angular build to container
-        run: docker cp dist/audioheaven/browser/. serving_base:/usr/local/apache2/htdocs
-
-      - name: 📁 List contents in container
-        run: docker exec serving_base ls -la /usr/local/apache2/htdocs
-
-      - name: 🏗️ Commit new Docker image
-        run: docker commit serving_base ${{ secrets.DOCKER_USER }}/audiheaven-angular:${{ github.sha }}
+      - name: 🐳 Build Docker image with NGINX
+        run: docker build -t ${{ secrets.DOCKER_USER }}/audiheaven-angular:${{ github.sha }} .
 
       - name: 🧱 List Docker images
         run: docker images
