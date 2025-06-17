@@ -50,7 +50,7 @@ export class CancionService {
   }
   postReaccion(reactionRequest: CancionReaction): Observable<any> {
     return this.http.post(
-      this.apiURL + 'api/reactions/create', // asegúrate de que esta ruta coincida
+      this.apiURL + 'api/reactions/create',
       reactionRequest,
       this.getHttpOptions()
     ).pipe(catchError(this.handleError));
@@ -85,7 +85,7 @@ export class CancionService {
       `${this.apiURL}api/cancion/delete/${id}`,
       {
         ...this.getHttpOptions(),
-        responseType: 'text' as 'json'  // 👈 esto evita que Angular intente parsear JSON
+        responseType: 'text' as 'json'
       }
     ).pipe(
       catchError(this.handleError)
@@ -102,7 +102,10 @@ export class CancionService {
   handleError(error: any) {
     let errorMessage = '';
 
-    if (error.status === 403) {
+    if (error.status === 401) {
+
+      errorMessage = 'Ya has votado en esta canción';
+    } else if (error.status === 403) {
       errorMessage = 'No tienes permisos para borrar esta canción.';
     } else if (error.status === 404) {
       errorMessage = 'La canción no fue encontrada.';
