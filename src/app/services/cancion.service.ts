@@ -103,7 +103,6 @@ export class CancionService {
     let errorMessage = '';
 
     if (error.status === 401) {
-
       errorMessage = 'Ya has votado en esta canción';
     } else if (error.status === 403) {
       errorMessage = 'No tienes permisos para borrar esta canción.';
