@@ -1,5 +1,16 @@
 <div class="main-container">
+
+
+    <div class="visual-side left-bass"></div>
+    <div class="visual-side right-bass"></div>
     <h2 class="welcome-title">🎧 Bienvenido, {{ username }}</h2>
+    <div class="music-equalizer">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
 
     <form class="search-form" (submit)="buscarCanciones(); $event.preventDefault()">
         <input type="text" class="input search-input" placeholder="🔍 Buscar por nombre o autor..."
@@ -13,7 +24,7 @@
 
 
 
-    <form class="song-form" (submit)="addCancion(); $event.preventDefault()">
+    <form class="song-form  rainbow-border" (submit)="addCancion(); $event.preventDefault()">
         <input type="text" class="input" placeholder="Nombre de la canción..." [(ngModel)]="cancionNombre"
             name="nombre" />
         <input type="text" class="input" placeholder="Autor de la canción..." [(ngModel)]="cancionAutor" name="autor" />

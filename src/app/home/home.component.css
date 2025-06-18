@@ -200,3 +200,147 @@
         transform: translateY(0);
     }
 }
+
+.music-equalizer {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 5px;
+    height: 40px;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.music-equalizer .bar {
+    width: 6px;
+    background: linear-gradient(to top, #f0db4f, #1db954);
+    border-radius: 3px;
+    animation: bounce 1s infinite ease-in-out;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+/* Añadimos diferentes delays para simular el beat */
+.music-equalizer .bar:nth-child(1) {
+    --i: 1;
+    height: 20px;
+}
+
+.music-equalizer .bar:nth-child(2) {
+    --i: 2;
+    height: 25px;
+}
+
+.music-equalizer .bar:nth-child(3) {
+    --i: 3;
+    height: 30px;
+}
+
+.music-equalizer .bar:nth-child(4) {
+    --i: 4;
+    height: 25px;
+}
+
+.music-equalizer .bar:nth-child(5) {
+    --i: 5;
+    height: 20px;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(1.8);
+    }
+}
+
+.rainbow-border {
+    position: relative;
+    z-index: 1;
+}
+
+.rainbow-border::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    z-index: -1;
+    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+    background-size: 300% 100%;
+    animation: rainbowAnimation 6s linear infinite;
+    border-radius: 12px;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: destination-out;
+    padding: 3px;
+}
+
+@keyframes rainbowAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.visual-side {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    animation: bassBounce 0.6s ease-in-out infinite;
+    opacity: 0.95;
+    pointer-events: none;
+    color: #1db954;
+    text-shadow: 0 0 10px #1db95488;
+}
+
+.left-bass::before,
+.right-bass::before {
+    content: "🎵";
+    display: block;
+    text-align: center;
+}
+
+.left-bass {
+    left: 20%;
+
+}
+
+.right-bass {
+    right: 20%;
+    animation-delay: 0.3s;
+}
+
+@keyframes bassBounce {
+    0% {
+        transform: translateY(-50%) scale(1);
+    }
+
+    10% {
+        transform: translateY(-55%) scale(1.8);
+    }
+
+    20% {
+        transform: translateY(-50%) scale(1);
+    }
+
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+@media (max-width: 1200px) {
+    .visual-side {
+        display: none;
+    }
+}
