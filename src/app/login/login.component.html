@@ -1,7 +1,6 @@
-<!-- login.component.html -->
 <div class="login-container">
-    <div class="login-card">
-        <h1 class="logo">🎵 AudioHeaven</h1>
+    <div class="login-card animated-card">
+        <h1 class="logo neon-text">🎵 AudioHeaven</h1>
         <p class="subtitle">Inicia sesión para acceder al paraíso musical</p>
 
         <div class="form-group">
@@ -14,7 +13,7 @@
             <input id="password" type="password" [(ngModel)]="password" placeholder="********" />
         </div>
 
-        <button class="login-button" (click)="callLogin()">Iniciar sesión</button>
+        <button class="login-button neon-button" (click)="callLogin()">Iniciar sesión</button>
 
         <div class="footer-links">
             <a routerLink="/">Cancelar</a>
