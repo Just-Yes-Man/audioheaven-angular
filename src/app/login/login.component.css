@@ -1,87 +1,170 @@
-/* login.component.css */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(to bottom right, #1f1f1f, #3d3d3d);
+    background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(240, 219, 79, 0.08), transparent 40%);
+    animation: backgroundFloat 20s linear infinite;
+    z-index: 0;
 }
 
 .login-card {
-    background: #ffffff10;
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    width: 320px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(240, 219, 79, 0.2);
+    width: 350px;
     text-align: center;
     color: #fff;
+    z-index: 1;
+    transition: transform 0.4s ease;
+}
+
+.animated-card:hover {
+    transform: translateY(-5px);
 }
 
 .logo {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-    color: #f0db4f;
+    margin-bottom: 0.8rem;
+    font-size: 2.2rem;
+    font-weight: bold;
 }
+
 
 .subtitle {
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    color: #ddd;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
 }
 
+
 .form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     text-align: left;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     font-weight: bold;
+    font-size: 0.9rem;
 }
 
 .form-group input {
     width: 100%;
-    padding: 0.6rem;
-    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
     border: none;
     outline: none;
-    background-color: #ffffff20;
+    background-color: #ffffff1a;
     color: white;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .form-group input::placeholder {
-    color: #ccc;
+    color: #aaa;
 }
 
+.form-group input:focus {
+    background-color: #ffffff30;
+    transform: scale(1.02);
+}
+
+/* Button */
 .login-button {
     width: 100%;
-    padding: 0.6rem;
+    padding: 0.75rem;
     border: none;
     background-color: #f0db4f;
     color: #1f1f1f;
     font-weight: bold;
-    border-radius: 8px;
+    font-size: 1rem;
+    border-radius: 14px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .login-button:hover {
-    background-color: #ffe985;
+    background-color: #fff27c;
+    transform: scale(1.03);
 }
 
+/* Footer */
 .footer-links {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-size: 0.85rem;
 }
 
 .footer-links a {
     color: #f0db4f;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .footer-links a:hover {
+    color: #ffe985;
     text-decoration: underline;
+}
+
+.neon-text {
+    color: #f0db4f;
+    text-shadow:
+        0 0 5px #f0db4f,
+        0 0 10px #f0db4f,
+        0 0 20px #f0db4f88,
+        0 0 40px #f0db4f33;
+}
+
+
+.neon-button {
+    box-shadow:
+        0 0 5px #f0db4f,
+        0 0 15px #f0db4f99,
+        0 0 25px #f0db4f55;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px #f0db4f, 0 0 15px #f0db4f99, 0 0 25px #f0db4f55;
+    }
+
+    50% {
+        box-shadow: 0 0 15px #f0db4f, 0 0 25px #f0db4fcc, 0 0 35px #f0db4f88;
+    }
+
+    100% {
+        box-shadow: 0 0 5px #f0db4f, 0 0 15px #f0db4f99, 0 0 25px #f0db4f55;
+    }
+}
+
+@keyframes backgroundFloat {
+    0% {
+        transform: translate(0%, 0%);
+    }
+
+    50% {
+        transform: translate(-5%, -5%);
+    }
+
+    100% {
+        transform: translate(0%, 0%);
+    }
 }
