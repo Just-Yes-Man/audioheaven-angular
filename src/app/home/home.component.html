@@ -29,7 +29,21 @@
                 <h3>{{ cancion.nombre }} - {{ cancion.autor }}</h3>
                 <p>Publicado por: {{ cancion.postedBy?.username || 'Desconocido' }}</p>
 
-                <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
+                <div *ngIf="esLinkDeYoutube(cancion.link)">
+                    <a [href]="cancion.link" target="_blank">
+                        <img [src]="getThumbnail(cancion.link)" alt="Miniatura de YouTube" width="200"
+                            class="youtube-thumbnail" />
+                    </a>
+                    <br />
+                    <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
+                </div>
+
+                <!-- Si no es de YouTube, muestra solo el link como texto o ignóralo -->
+                <div *ngIf="!esLinkDeYoutube(cancion.link)">
+                    <a [href]="cancion.link" target="_blank" class="song-link">🎵 Escuchar</a>
+                </div>
+
+
                 <p *ngIf="cancion.reaccionMasVotada">
                     ⭐ Reacción más votada:
                     <strong>

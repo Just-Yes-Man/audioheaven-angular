@@ -67,7 +67,17 @@ export class HomeComponent {
     });
   }
 
+
+  esLinkDeYoutube(link: string): boolean {
+    return /(?:youtu\.be\/|youtube\.com\/)/.test(link);
+  }
+
   public addCancion() {
+    if (!this.esLinkDeYoutube(this.cancionLink)) {
+      alert('El link proporcionado no es un enlace válido de YouTube.');
+      return;
+    }
+
     const nuevaCancion: Cancion = {
       id: 0,
       nombre: this.cancionNombre,
@@ -77,11 +87,13 @@ export class HomeComponent {
     };
 
     console.log('Canción agregada:', nuevaCancion);
+
     this.cancionService.postCancion(nuevaCancion).subscribe((respuesta: any) => {
       console.log('Canción agregada:', respuesta);
       this.getCanciones();
     });
   }
+
 
   terminoBusqueda: string = '';
 
@@ -136,6 +148,16 @@ export class HomeComponent {
         console.error('Error al enviar reacción:', err);
       }
     });
+  }
+
+  extraerIdYoutube(link: string): string | null {
+    const match = link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  getThumbnail(link: string): string {
+    const id = this.extraerIdYoutube(link);
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
   }
 
   public cargarComentarios(cancion: Cancion) {
